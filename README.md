@@ -60,38 +60,33 @@ The project consists of a single C program (`test_filegen.c`) that acts as a bui
 
 ### Compilation & Usage
 
-1.  **Compile the Builder:**
-    ```bash
-    gcc -o builder.exe "test_filegen.c" -lws2_32 -liphlpapi -lole32 -loleaut32 -lshlwapi -lpsapi -ldbghelp -lntdll
-    ```
-
-2.  **Run the Builder:**
+1.  **Run the Builder:**
     ```bash
     ./builder.exe
     ```
 
-3.  **Login:**
+2.  **Login:**
     The builder is password-protected.
     - Default Username: `admin`
     - Default Password: `admin`
     You will be prompted to change the password after your first successful login.
 
-4.  **Generate the Payload:**
+3.  **Generate the Payload:**
     - Select option `1` from the menu.
     - Enter the listener's IP address and port when prompted.
     - The builder will generate `final_stager.c` and compile it into `final_file.exe`.
 
-5.  **Set up Listener:**
+4.  **Set up Listener:**
     On your attacker machine, start a Netcat listener to catch the connection.
     ```bash
     nc -lvnp <YOUR_PORT>
     ```
 
-6.  **Execute the Payload:**
+5.  **Execute the Payload:**
     Run `final_file.exe` on the target Windows machine.
 
 ---
 
 ## License
 
-This project is for educational use only. You are free to fork, modify, and study the code. However, distribution of compiled binaries or use for any non-educational purpose is strictly prohibited.
+This project is for educational use only. You are free to fork and study the Cerberus. However, distribution of compiled binaries or use for any non-educational purpose is strictly prohibited.
