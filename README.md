@@ -1,7 +1,7 @@
 # Project Cerberus: Advanced Windows Payload Generator
 
 
-**Cerberus** is a sophisticated C based framework for generating highly evasive Windows reverse shell payloads. This project is designed as an educational tool for cybersecurity researchers, red teamers, and students to study and understand advanced offensive security techniques and modern evasion tactics used to bypass endpoint security solutions.
+**Cerberus** is a sophisticated C based framework for generating highly evasive Windows reverse shell payloads. With over 40 sophisticated evasion techniques, it represents the cutting edge in payload obfuscation and anti-detection technology. This project is designed as an educational tool for cybersecurity researchers, red teamers, and students to study and understand advanced offensive security techniques and modern evasion tactics used to bypass endpoint security solutions.
 
 ---
 
@@ -15,78 +15,120 @@ This tool is intended for **educational and research purposes only**. The techni
 
 This framework layers multiple state-of-the-art evasion techniques to create a payload that is resilient to both static and dynamic analysis.
 
-#### 🛡️ Anti-Sandbox & Anti-Analysis
-- **Hardware Checks**: Detects low CPU cores, small RAM/disk sizes common in sandboxes.
-- **VM Artifacts**: Scans for VM-specific MAC addresses, processes, and CPU vendor strings (VMware, KVM, VirtualBox).
-- **Timing Attacks**: Detects `Sleep()` acceleration and suspiciously fast API calls.
-- **Human Interaction Simulation**: Employs advanced mouse movement analysis to distinguish between a real user and an automated sandbox by checking for:
-  - Natural speed and acceleration variance.
-  - Micro-movements and "jitter".
-  - Non-linear movement patterns.
-- **Debugger Detection**: Uses `IsDebuggerPresent()` to identify attached debuggers.
+#### 🛡️ **Advanced Evasion Techniques**
+- **ETW Patching**: Neutralizes Event Tracing for Windows telemetry
 
-#### 👻 AV / EDR Evasion
-- **Payload Encryption**: The core shellcode is encrypted with a unique, randomly generated **ChaCha20** key for each build, preventing static signature detection.
-- **Runtime API Resolution (API Hashing)**: Avoids suspicious entries in the Import Address Table (IAT) by dynamically finding the memory addresses of sensitive Windows API functions at runtime using pre-computed name hashes.
-- **Direct System Calls**: Bypasses user-land EDR hooks by invoking critical functions like `NtAllocateVirtualMemory` directly from `ntdll.dll`.
-- **In-Memory Patching**:
-  - **ETW Bypass**: Patches `EtwEventWrite` to disable Event Tracing for Windows, blinding security products that rely on it for telemetry.
-  - **AMSI Bypass**: Patches `AmsiScanBuffer` to prevent the Antimalware Scan Interface from scanning the decrypted payload in memory.
-- **SmartScreen Bypass**: Implements a multi-faceted strategy to circumvent Windows SmartScreen reputation checks by manipulating process policies and file zone identifiers.
+- **AMSI Bypass**: Defeats Anti-Malware Scan Interface in memory
 
-#### 🎲 Obfuscation & Randomization
-- **Dynamic Code Generation**: The builder creates a completely new C source file for every payload.
-- **Polymorphic Naming**: All key functions and variables in the generated payload are given randomized names for each build, making signature-based detection significantly harder.
+- **SmartScreen Bypass**: Multi-technique approach to bypass Windows reputation checks
+
+- **API Hashing**: Resolves Windows APIs dynamically to avoid static detection
+
+- **Direct Syscalls**: Uses direct system calls to bypass user-mode hooks
+
+- **Process Hiding**: Conceals console window and masquerades as legitimate processes.
+
+### 🔍 **Comprehensive Anti-Sandbox Detection**
+- **Mouse Movement Analysis** - Distinguishes human vs automated input patterns
+- **Memory Forensics** - Detects sandbox memory configurations
+- **CPU & Hardware Profiling** - Identifies virtualized environments through:
+  - CPU vendor checks (VMware, VirtualBox, Hyper-V, KVM)
+  - Core count analysis
+  - RDTSC timing discrepancies
+  - Firmware table inspection (ACPI/SMBIOS)
+- **Environmental Analysis**:
+  - Disk space verification
+  - RAM size validation
+  - Screen resolution checks
+  - Power status monitoring
+  - Network adapter MAC analysis
+
+### 🎭 **Stealth & Obfuscation**
+- **Multi-layer Encryption** - XOR + custom encryption + Base64 encoding
+- **Randomized Naming** - Dynamic function/variable name generation
+- **Timestamp Stomping** - Anti-forensics file timestamp manipulation
+- **Heap Debugger Detection** - Identifies analysis environments via heap flags
+- **Parent Process Spoofing** - Validates legitimate parent processes
+
+### ⏱️ **Behavioral Evasion**
+- **Timing Analysis** - Statistical timing checks to detect accelerated environments
+- **Sleep Acceleration Detection** - Identifies sped-up sandbox timers
+- **User Activity Monitoring** - Checks for human interaction patterns
+- **Session Analysis** - Distinguishes between user and service sessions
+
+### 🔧 **Technical Capabilities**
+- **Dynamic Shellcode Generation** - Custom reverse shell with configurable IP/port
+- **Memory Protection Bypass** - Proper memory allocation and execution rights
+- **Fallback Execution Methods** - Multiple techniques for reliable payload execution
+- **Comprehensive Logging** - Detailed debugging and error tracking
+- **Cross-Platform Compatibility** - Windows-focused with portable design elements
 
 ---
 
-## 🛠️ How It Works
-
-The project consists of a single C program (`test_filegen.c`) that acts as a builder.
-
-1.  **Run the Builder**: Compile and execute the builder application.
-2.  **Provide Input**: Enter the attacker's IP address and port for the reverse shell.
-3.  **Generate Source**: The builder dynamically constructs a new C source file (`final_stager.c`), embedding the evasion logic and the encrypted, user-configured shellcode.
-4.  **Compile Payload**: The builder invokes the GCC compiler to compile `final_stager.c` into a standalone executable (`final_file.exe`).
-5.  **Deploy**: The resulting `final_file.exe` is the payload to be used. When executed, it will perform all evasion checks before decrypting and running the shellcode in memory.
-
----
-
-## ⚙️ Getting Started
+## 🚀 **Quick Start**
 
 ### Prerequisites
-- A Windows machine.
-- **MinGW-w64** installed and configured in your system's PATH. This is required for the `gcc` compiler.
+- Windows OS
+- MinGW GCC Compiler
+- Basic C compilation environment
 
-### Compilation & Usage
+### Usage
+1. Clone the repository
+2. Compile the generator
+3. Run the executable
+4. Enter target IP and port
+5. Generate and deploy the payload
 
-1.  **Run the Builder:**
-    ```bash
-    ./builder.exe
-    ```
+```bash
+# Start your listener
+nc -lvnp 4444
 
-2.  **Login:**
-    The builder is password-protected.
-    - Default Username: `admin`
-    - Default Password: `admin`
-    You will be prompted to change the password after your first successful login.
+# Execute the generated payload
+final_file.exe
+```
+---
 
-3.  **Generate the Payload:**
-    - Select option `1` from the menu.
-    - Enter the listener's IP address and port when prompted.
-    - The builder will generate `final_stager.c` and compile it into `final_file.exe`.
+## 📊 **Feature Breakdown**
 
-4.  **Set up Listener:**
-    On your attacker machine, start a Netcat listener to catch the connection.
-    ```bash
-    nc -lvnp <YOUR_PORT>
-    ```
+| Category | Features Count | Key Technologies |
+|----------|----------------|------------------|
+| **Evasion** | 12+ | ETW, AMSI, SmartScreen, API Hashing |
+| **Anti-Sandbox** | 15+ | Mouse, Memory, CPU, Timing, Environmental |
+| **Stealth** | 8+ | Encryption, Obfuscation, Anti-forensics |
+| **Execution** | 7+ | Shellcode, Memory Management, Fallbacks |
 
-5.  **Execute the Payload:**
-    Run `final_file.exe` on the target Windows machine.
+---
+## 🔒 **Legal & Ethical Use**
+
+- ✅ Use only on systems you own
+- ✅ Authorized penetration testing
+- ✅ Educational and research purposes
+- ✅ Red team exercises with proper authorization
+
+- ❌ Unauthorized hacking
+- ❌ Malicious activities
+- ❌ Testing on systems without permission
+- ❌ Any illegal activities
+
+## 🛠️ **Technical Requirements**
+
+- **Platform**: Windows (x64)
+- **Compiler**: MinGW GCC
+- **Libraries**: Windows SDK, standard C libraries
+- **Permissions**: Administrative privileges recommended for full functionality
+
+## 🤝 **Contributing**
+
+We welcome contributions from security researchers and developers. Please ensure all contributions align with ethical security research practices.
 
 ---
 
 ## License
 
 This project is for educational use only. You are free to fork and study the Cerberus. However, distribution of compiled binaries or use for any non-educational purpose is strictly prohibited.
+
+---
+
+**Cerberus** - Because sometimes you need a three-headed guard dog to protect your payloads. 🐕‍🦺🐕‍🦺🐕‍🦺
+
+*For educational and authorized security testing purposes only.*
