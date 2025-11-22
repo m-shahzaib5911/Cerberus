@@ -81,7 +81,7 @@ This framework layers multiple state-of-the-art evasion techniques to create a p
 
 ```bash
 # Start your listener
-nc -lvnp 4444
+nc -lvnp [the port you use to generate payload]
 
 # Execute the generated payload
 final_file.exe
