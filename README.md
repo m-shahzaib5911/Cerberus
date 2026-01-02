@@ -4,7 +4,7 @@
 
 *Unleash Stealth, Master Resilience, Defy Detection Effortlessly*
 
-[![Last Commit](https://img.shields.io/github/last-commit/yourusername/cerberus?style=flat-square&color=blue)](https://github.com/yourusername/cerberus)
+[![Last Commit](https://img.shields.io/github/last-commit/m-shahzaib5911/Cerberus?style=flat-square&color=blue)](https://github.com/yourusername/cerberus)
 [![Code Coverage](https://img.shields.io/badge/coverage-100.0%25-brightgreen?style=flat-square)](https://github.com/yourusername/cerberus)
 [![Languages](https://img.shields.io/badge/languages-1-orange?style=flat-square)](https://github.com/yourusername/cerberus)
 
