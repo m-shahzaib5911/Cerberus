@@ -1,4 +1,31 @@
-# Project Cerberus: Advanced Windows Payload Generator
+<div align="center">
+
+# CERBERUS
+
+*Unleash Stealth, Master Resilience, Defy Detection Effortlessly*
+
+[![Last Commit](https://img.shields.io/github/last-commit/yourusername/cerberus?style=flat-square&color=blue)](https://github.com/yourusername/cerberus)
+[![Code Coverage](https://img.shields.io/badge/coverage-100.0%25-brightgreen?style=flat-square)](https://github.com/yourusername/cerberus)
+[![Languages](https://img.shields.io/badge/languages-1-orange?style=flat-square)](https://github.com/yourusername/cerberus)
+
+</div>
+
+<br>
+
+<div align="center">
+
+### Built with the tools and technologies:
+
+![Markdown](https://img.shields.io/badge/Markdown-000000?style=for-the-badge&logo=markdown&logoColor=white)
+![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)
+
+</div>
+
+---
+
+<br>
+
+## 🎯 Project Overview
 
 
 **Cerberus** is a sophisticated C based framework for generating highly evasive Windows reverse shell payloads. With over 40 sophisticated evasion techniques, it represents the cutting edge in payload obfuscation and anti-detection technology. This project is designed as an educational tool for cybersecurity researchers, red teamers, and students to study and understand advanced offensive security techniques and modern evasion tactics used to bypass endpoint security solutions.
